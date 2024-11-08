@@ -1,1 +1,22 @@
-price_value = @{ (ASCII_DIGIT | ".")+ }
+WHITESPACE = _{ " " | "\t" | "\n" }
+
+digit = _{ ASCII_DIGIT }
+
+// Date components
+year     = { digit ~ digit ~ digit ~ digit }
+month    = { digit ~ digit | ASCII_ALPHA+ }
+day      = { digit ~ digit }
+
+date     = { (day ~ "." ~ month ~ "." ~ year) | (month ~ "/" ~ day ~ "/" ~ year) | (ASCII_ALPHA+ ~ WHITESPACE ~ day ~ "," ~ WHITESPACE ~ year) }
+blockchain_name = { "SOL" | "BTC" | "ETH" }
+currency = { "USD" | "EUR" | "UAH" }
+number = { ASCII_DIGIT+ ~ ("," ~ ASCII_DIGIT{3})* ~ ("." ~ ASCII_DIGIT+)? }
+
+entry = {
+    WHITESPACE? ~ "Name:" ~ WHITESPACE ~ blockchain_name ~ ";" ~ WHITESPACE ~ "Date:" ~ WHITESPACE ~ date ~ ";" ~
+    WHITESPACE ~ "Open:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
+    WHITESPACE ~ "Close:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
+    WHITESPACE ~ "High:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
+    WHITESPACE ~ "Low:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
+    WHITESPACE ~ "Volume:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";"
+}
