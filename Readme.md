@@ -1,4 +1,4 @@
-### Solana Price Parser
+## Cryptocurrencies data parser
 
 ### Description
 This project implements a parser that extracts data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
@@ -19,7 +19,6 @@ The parser reades structured data from a file using grammar rules and then outpu
 
 ### Applying
 This parser can be used in applications related to blockchain and financial data processing
-
 
 - The parser can be used to extract structured data from text files or logs that record blockchain or cryptocurrency market data. This is useful for preparing datasets for further analysis or storage in databases
 
