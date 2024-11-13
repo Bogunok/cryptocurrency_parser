@@ -26,6 +26,24 @@ The parser reades structured data from a file using grammar rules and then outpu
 - low: Matches the low price 
 - volume: Matches the volume line. This represents the value of tokens traded over the last 24 hours
 
+### CLI commands
+
+- parse <input_file> <output_file>:
+
+This command reads data from the input file, parses it, and saves the results in the specified output file in JSON format.
+It takes two arguments:
+<input_file> — the path to the input file containing data to parse (e.g., data.txt).
+<output_file> — the path to the output JSON file where the parsed results will be saved (e.g., output.json).
+
+- help
+
+Displays helpful information on how to use the program and the available commands.
+It describes the input format required for the parse command and provides an example of the data structure that can be parsed.
+
+- credits
+
+Shows information about the project`s name and author of the program.
+
 ### Applying
 This parser can be used in applications related to blockchain and financial data processing
 

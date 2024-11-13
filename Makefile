@@ -1,3 +1,15 @@
+build:
+	cargo build
+
+run-parse:
+	cargo run -- parse data.txt output.json
+
+run-help:
+	cargo run -- help
+
+run-credits:
+	cargo run -- credits
+
 format:
     cargo fmt
 
