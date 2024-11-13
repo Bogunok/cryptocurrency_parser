@@ -1,7 +1,7 @@
-Name: SOL; Date: Nov 8, 2024; Open: 196.34 USD; Close: 203.05 USD; High: 204.76 USD; Low: 202.22 USD; Volume: 5,668,932,608 USD;
-Name: SOL; Date: Nov 7, 2024; Open: 186.77 USD; Close: 223.00 USD; High: 227.07 USD; Low: 201.90 USD; Volume: 9,822,932,731 USD;
-Name: SOL; Date: Nov 6, 2024; Open: 199.32 USD; Close: 213.06 USD; High: 215.99 USD; Low: 194.00 USD; Volume: 3,243,848,057 USD;
-Name: SOL; Date: Nov 5, 2024; Open: 180.49 USD; Close: 215.05 USD; High: 217.12 USD; Low: 162.23 USD; Volume: 2,809,006,700 USD;
-Name: SOL; Date: Nov 4, 2024; Open: 176.74 USD; Close: 190.95 USD; High: 195.46 USD; Low: 182.77 USD; Volume: 3,157,093,060 USD;
-Name: SOL; Date: Nov 3, 2024; Open: 188.12 USD; Close: 223.05 USD; High: 224.76 USD; Low: 194.27 USD; Volume: 2,645,902,555 USD;
-Name: SOL; Date: Nov 2, 2024; Open: 196.64 USD; Close: 201.05 USD; High: 205.99 USD; Low: 173.12 USD; Volume: 4,238,543,867 USD;
+Name: SOL; Date: 08.11.2024; Open: 196.34 USD; Close: 203.05 USD; High: 204.76 USD; Low: 202.22 USD; Volume: 5,668,932,608 USD;
+Name: SOL; Date: 08.11.2024; Open: 186.77 USD; Close: 223.00 USD; High: 227.07 USD; Low: 201.90 USD; Volume: 9,822,932,731 USD;
+Name: SOL; Date: 08.11.2024; Open: 199.32 USD; Close: 213.06 USD; High: 215.99 USD; Low: 194.00 USD; Volume: 3,243,848,057 USD;
+Name: SOL; Date: 08.11.2024; Open: 180.49 USD; Close: 215.05 USD; High: 217.12 USD; Low: 162.23 USD; Volume: 2,809,006,700 USD;
+Name: SOL; Date: 08.11.2024; Open: 176.74 USD; Close: 190.95 USD; High: 195.46 USD; Low: 182.77 USD; Volume: 3,157,093,060 USD;
+Name: SOL; Date: 08.11.2024; Open: 188.12 USD; Close: 223.05 USD; High: 224.76 USD; Low: 194.27 USD; Volume: 2,645,902,555 USD;
+Name: SOL; Date: 08.11.2024; Open: 196.64 USD; Close: 201.05 USD; High: 205.99 USD; Low: 173.12 USD; Volume: 4,238,543,867 USD;

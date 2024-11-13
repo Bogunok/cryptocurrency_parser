@@ -1,92 +1,92 @@
 use pest::Parser;
-use std::fs::File;
-use std::path::Path;
-use std::io::{self, Write};
-use std::io::BufRead;
 use pest_derive::Parser;
+use serde_json::json;
+use std::collections::HashMap;
+use std::fs::File;
+use std::io::BufRead;
+use std::io::{self, Write};
+use std::path::Path;
 use thiserror::Error;
 
 #[derive(Parser)]
 #[grammar = "./grammar.pest"]
 pub struct BlockchainParser;
 
-#[derive(Debug, serde::Serialize)]
-pub struct BlockchainEntry {
-    name: String,
-    date: String,
-    open: f64,
-    close: f64,
-    high: f64,
-    low: f64,
-    volume: f64,
-}
-
 #[derive(Error, Debug)]
 pub enum ParseError {
-    #[error("Failed to parse entry: {0}")]
-    ParseError(String),
-
-    #[error("Missing expected data in parsed structure")]
-    MissingData,
-
-    #[error("Failed to parse float value: {0}")]
-    FloatParseError(#[from] std::num::ParseFloatError),
-
-    #[error("IO error: {0}")]
-    IoError(#[from] io::Error),
-
-    #[error("Pest parsing error: {0}")]
-    PestError(#[from] pest::error::Error<Rule>),
+    #[error("Parsing error: {0}")]
+    ParsingError(String),
+    #[error("File error: {0}")]
+    FileError(#[from] io::Error),
+    #[error("JSON serialization error: {0}")]
+    JsonError(#[from] serde_json::Error),
 }
 
-impl BlockchainEntry {
-    fn from_parsed_data(parsed: pest::iterators::Pair<Rule>) -> Result<Self, ParseError> {
-        let mut name = String::new();
-        let mut date = String::new();
-        let mut open = 0.0;
-        let mut close = 0.0;
-        let mut high = 0.0;
-        let mut low = 0.0;
-        let mut volume = 0.0;
+pub fn parse_entry(input: &str) -> Result<HashMap<String, String>, ParseError> {
+    let mut entry_map: HashMap<String, String> = HashMap::new();
+    let pairs = BlockchainParser::parse(Rule::entry, input)
+        .map_err(|e| ParseError::ParsingError(format!("{:?}", e)))?;
 
-        for pair in parsed.into_inner() {
-            match pair.as_rule() {
-                Rule::blockchain_name => name = pair.as_str().to_string(),
-                Rule::date => date = pair.as_str().to_string(),
-                Rule::number => {
-                    if let Some(label) = pair.clone().into_inner().next() {
-                        match label.as_str() {
-                            "Open" => open = pair.as_str().parse().map_err(ParseError::FloatParseError)?,
-                            "Close" => close = pair.as_str().parse().map_err(ParseError::FloatParseError)?,
-                            "High" => high = pair.as_str().parse().map_err(ParseError::FloatParseError)?,
-                            "Low" => low = pair.as_str().parse().map_err(ParseError::FloatParseError)?,
-                            "Volume" => volume = pair.as_str().parse().map_err(ParseError::FloatParseError)?,
-                            _ => (),
-                        }
+    for pair in pairs {
+        if pair.as_rule() == Rule::entry {
+            for inner_pair in pair.into_inner() {
+                match inner_pair.as_rule() {
+                    Rule::name => {
+                        let name = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Name".to_string(), name.to_string());
                     }
+                    Rule::date_entry => {
+                        let date = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Date".to_string(), date.to_string());
+                    }
+                    Rule::open => {
+                        let open = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Open".to_string(), open.to_string());
+                    }
+                    Rule::close => {
+                        let close = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Close".to_string(), close.to_string());
+                    }
+                    Rule::high => {
+                        let high = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("High".to_string(), high.to_string());
+                    }
+                    Rule::low => {
+                        let low = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Low".to_string(), low.to_string());
+                    }
+                    Rule::volume => {
+                        let volume = inner_pair.into_inner().next().unwrap().as_str();
+                        entry_map.insert("Volume".to_string(), volume.to_string());
+                    }
+                    _ => {}
                 }
-                _ => (),
             }
         }
-
-        Ok(BlockchainEntry { name, date, open, close, high, low, volume })
     }
+
+    Ok(entry_map)
 }
 
-pub fn parse_blockchain_data(input: &str) -> Result<BlockchainEntry, ParseError> {
-    let parsed = BlockchainParser::parse(Rule::entry, input)?.next().ok_or(ParseError::ParseError("Parsing failed".into()))?;
-    BlockchainEntry::from_parsed_data(parsed)
-}
+pub fn parse_file_to_json(input_path: &Path, output_path: &Path) -> Result<(), ParseError> {
+    let file = File::open(input_path)?;
+    let reader = io::BufReader::new(file);
 
-pub fn write_to_file(entry: &BlockchainEntry, output_path: &str) -> Result<(), ParseError> {
-    let mut file = File::create(output_path)?;
-    writeln!(file, "Parsed entry: {:?}", entry).map_err(ParseError::IoError)
-}
+    let mut entries = Vec::new();
 
-pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
+    for line in reader.lines() {
+        let line = line?;
+        match parse_entry(&line) {
+            Ok(entry) => entries.push(entry),
+            Err(e) => eprintln!("Error parsing line: {}", e),
+        }
+    }
+
+    let json_data = json!(entries);
+    let pretty_json = serde_json::to_string_pretty(&json_data)?;
+
+    let mut output_file = File::create(output_path)?;
+    write!(output_file, "{}", pretty_json)?;
+
+    Ok(())
 }

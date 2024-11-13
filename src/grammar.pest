@@ -1,22 +1,75 @@
+/// Matches whitespace characters including space, tab, and newline.
+/// This rule is used to ignore these characters in parsing, making the grammar
+/// more readable and flexible by disregarding non-essential spaces.
 WHITESPACE = _{ " " | "\t" | "\n" }
 
+/// Represents a single ASCII digit from 0 to 9.
+/// This rule allows us to match numeric characters in other rules where digits are required.
 digit = _{ ASCII_DIGIT }
 
-// Date components
-year     = { digit ~ digit ~ digit ~ digit }
-month    = { digit ~ digit | ASCII_ALPHA+ }
-day      = { digit ~ digit }
+/// Matches a 4-digit year, e.g., "2024".
+/// Used in date formats to specify the year component.
+year = { digit ~ digit ~ digit ~ digit }
 
-date     = { (day ~ "." ~ month ~ "." ~ year) | (month ~ "/" ~ day ~ "/" ~ year) | (ASCII_ALPHA+ ~ WHITESPACE ~ day ~ "," ~ WHITESPACE ~ year) }
-blockchain_name = { "SOL" | "BTC" | "ETH" }
-currency = { "USD" | "EUR" | "UAH" }
-number = { ASCII_DIGIT+ ~ ("," ~ ASCII_DIGIT{3})* ~ ("." ~ ASCII_DIGIT+)? }
+/// Matches a 2-digit month, e.g., "05" for May.
+/// Used in date formats to specify the month component.
+month = { digit ~ digit }
 
-entry = {
-    WHITESPACE? ~ "Name:" ~ WHITESPACE ~ blockchain_name ~ ";" ~ WHITESPACE ~ "Date:" ~ WHITESPACE ~ date ~ ";" ~
-    WHITESPACE ~ "Open:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
-    WHITESPACE ~ "Close:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
-    WHITESPACE ~ "High:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
-    WHITESPACE ~ "Low:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";" ~
-    WHITESPACE ~ "Volume:" ~ WHITESPACE ~ number ~ WHITESPACE ~ currency ~ ";"
-}
+/// Matches a 2-digit day, e.g., "12" for the 12th day of a month.
+/// Used in date formats to specify the day component.
+day = { digit ~ digit }
+
+/// Matches two date formats: "dd.mm.yyyy" or "mm/dd/yyyy".
+/// Supports both European and American date formats for flexibility.
+/// Combines day, month, and year components separated by specific delimiters.
+date = @{ (day ~ "." ~ month ~ "." ~ year) | (month ~ "/" ~ day ~ "/" ~ year) }
+
+/// Recognizes specific blockchain names: "SOL", "BTC", or "ETH".
+/// This rule is used to identify and validate different blockchain types.
+blockchain_name = @{ "SOL" | "BTC" | "ETH" }
+
+/// Matches a specific set of currency codes: "USD", "EUR", or "UAH".
+/// Used in financial fields to denote the currency associated with a numeric value.
+currency = @{ "USD" | "EUR" | "UAH" }
+
+/// Represents a formatted numeric value with optional commas for thousands separation
+/// and an optional decimal part. Examples include "1,000.50" or "200,200,200".
+/// Allows flexibility in representing numeric data in financial contexts.
+number = @{ ASCII_DIGIT+ ~ ("," ~ ASCII_DIGIT{3})* ~ ("." ~ ASCII_DIGIT+)? }
+
+/// Matches a number followed by a currency.
+/// Specifies the format for fields that require both a numeric amount and currency type.
+number_and_currency = @{number ~ WHITESPACE ~ currency}
+
+/// Defines the structure of an entire entry, combining all components
+/// in a specific format. An entry consists of name, date, open, close, high, low, and volume fields.
+/// Ensures consistency and proper format across all entries.
+entry = ${name ~ WHITESPACE ~ date_entry ~ WHITESPACE ~ open ~ WHITESPACE ~ close ~ WHITESPACE ~ high ~ WHITESPACE ~ low ~ WHITESPACE ~ volume}
+
+/// Matches a line that includes the blockchain name, formatted as "Name: <blockchain_name>;".
+/// Ensures consistency in the format and captures the type of blockchain being referenced.
+name = ${ "Name:" ~ WHITESPACE ~ blockchain_name ~ ";"}
+
+/// , formatted as Matches a line containing the date"Date: <date>;".
+/// Used to capture and verify the date component within an entry.
+date_entry = ${ "Date:" ~ WHITESPACE ~ date ~ ";"}
+
+/// Matches the opening price line in the format "Open: <number_and_currency>;".
+/// Specifies the format for the open price field in each entry.
+open = ${ "Open:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+
+/// Matches the closing price line in the format "Close: <number_and_currency>;".
+/// Specifies the format for the close price field in each entry.
+close = ${ "Close:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+
+/// Matches the high price line in the format "High: <number_and_currency>;".
+/// Specifies the format for the high price field in each entry.
+high = ${ "High:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+
+/// Matches the low price line in the format "Low: <number_and_currency>;".
+/// Specifies the format for the low price field in each entry.
+low = ${ "Low:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+
+/// Matches the volume line in the format "Volume: <number_and_currency>;".
+/// Specifies the format for the volume field, indicating the traded volume in a particular currency.
+volume = ${ "Volume:" ~ WHITESPACE ~ number_and_currency ~ ";"}

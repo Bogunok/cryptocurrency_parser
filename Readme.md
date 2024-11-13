@@ -1,10 +1,12 @@
-## Cryptocurrencies data parser
+## сryptocurrency_parser
 
 ### Description
 This project implements a parser that extracts data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
 
 ### Technical description
-The parser reades structured data from a file using grammar rules and then outputs parsed result to a csv file.
+The parser reades structured data from a file using grammar rules and then outputs parsed result to a json file.
+
+## Grammar rules
 
 - digit: Matches any single ASCII digit (0-9)
 - year: Matches a four-digit year by concatenating four digit rules (e.g., 2024)
@@ -14,8 +16,15 @@ The parser reades structured data from a file using grammar rules and then outpu
 - blockchain_name: Matches specific blockchain names: SOL, BTC, or ETH. This ensures only these blockchain names are parsed as valid
 - currency: Matches specific currency codes: USD, EUR, or UAH. This limits the parsed currency to these three options
 - number: Matches a numeric value, potentially with thousands separators (e.g., 1,000,000) and optional decimal places (e.g., 123.45)
-- entry: Matches a complete entry for a blockchain record, which includes: Name: field with a blockchain name, Date: field with a date,
-- Open:, Close:, High:, Low:, and Volume: fields, each followed by a number and a currency
+- number_and_currency: Matches a number followed by a currency
+- entry: Matches a complete entry for a blockchain record, which includes: name, date, open, close, high, low, and volume fields
+- name: Matches a line that includes the blockchain name
+- date_entry: Matches a line containing the date
+- open: Matches the opening price line 
+- close:  Matches the closing price line
+- high: Matches the high price
+- low: Matches the low price 
+- volume: Matches the volume line. This represents the value of tokens traded over the last 24 hours
 
 ### Applying
 This parser can be used in applications related to blockchain and financial data processing
