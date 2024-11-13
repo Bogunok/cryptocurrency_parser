@@ -26,6 +26,31 @@ The parser reades structured data from a file using grammar rules and then outpu
 - low: Matches the low price 
 - volume: Matches the volume line. This represents the value of tokens traded over the last 24 hours
 
+
+WHITESPACE = _{ " " | "\t" | "\n" }
+
+digit = _{ ASCII_DIGIT }
+
+year = { digit ~ digit ~ digit ~ digit }
+month = { digit ~ digit }
+day = { digit ~ digit }
+
+date = @{ (day ~ "." ~ month ~ "." ~ year) | (month ~ "/" ~ day ~ "/" ~ year) }
+blockchain_name = @{ "SOL" | "BTC" | "ETH" }
+currency = @{ "USD" | "EUR" | "UAH" }
+number = @{ ASCII_DIGIT+ ~ ("," ~ ASCII_DIGIT{3})* ~ ("." ~ ASCII_DIGIT+)? }
+number_and_currency = @{number ~ WHITESPACE ~ currency}
+
+entry = ${name ~ WHITESPACE ~ date_entry ~ WHITESPACE ~ open ~ WHITESPACE ~ close ~ WHITESPACE ~ high ~ WHITESPACE ~ low ~ WHITESPACE ~ volume}
+name = ${ "Name:" ~ WHITESPACE ~ blockchain_name ~ ";"}
+date_entry = ${ "Date:" ~ WHITESPACE ~ date ~ ";"}
+open = ${ "Open:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+close = ${ "Close:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+high = ${ "High:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+low = ${ "Low:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+volume = ${ "Volume:" ~ WHITESPACE ~ number_and_currency ~ ";"}
+
+
 ### CLI commands
 
 - parse <input_file> <output_file>:
