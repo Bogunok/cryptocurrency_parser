@@ -1,5 +1,8 @@
 # сryptocurrency_parser
 
+- crate: https://crates.io/crates/cryptocurrency_parser
+- docs:
+
 ## Description
 This project implements a parser that parses data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
 
