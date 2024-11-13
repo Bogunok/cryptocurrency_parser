@@ -5,6 +5,7 @@ edition = "2021"
 authors = ["Yelyzaveta Bohun"]
 description = "A parser for extracting data of different blockchains."
 readme = "README.md"
+license = "MIT"
 
 [dependencies]
 thiserror = "2.0.0"
