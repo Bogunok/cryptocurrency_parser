@@ -10,7 +10,7 @@ The parser reades structured data from a file using grammar rules and then outpu
 
 - digit: Matches any single ASCII digit (0-9)
 - year: Matches a four-digit year by concatenating four digit rules (e.g., 2024)
-- month: Matches either a two-digit month (e.g., 01 for January) or a month represented by one or more alphabetical characters (e.g., Jan, November)
+- month:  Matches a 2-digit month, e.g., "05" for May.
 - day: Matches a two-digit day (e.g., 01, 23).
 - date: Matches various date formats, e.g.,  08.11.2024, 11/08/2024, Nov 8, 2024
 - blockchain_name: Matches specific blockchain names: SOL, BTC, or ETH. This ensures only these blockchain names are parsed as valid
