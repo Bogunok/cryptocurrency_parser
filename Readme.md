@@ -26,9 +26,8 @@ The parser reades structured data from a file using grammar rules and then outpu
 - low: Matches the low price 
 - volume: Matches the volume line. This represents the value of tokens traded over the last 24 hours
 
-
+```pest
 WHITESPACE = _{ " " | "\t" | "\n" }
-
 digit = _{ ASCII_DIGIT }
 
 year = { digit ~ digit ~ digit ~ digit }
@@ -49,7 +48,7 @@ close = ${ "Close:" ~ WHITESPACE ~ number_and_currency ~ ";"}
 high = ${ "High:" ~ WHITESPACE ~ number_and_currency ~ ";"}
 low = ${ "Low:" ~ WHITESPACE ~ number_and_currency ~ ";"}
 volume = ${ "Volume:" ~ WHITESPACE ~ number_and_currency ~ ";"}
-
+```
 
 ## CLI commands
 
