@@ -1,3 +1,4 @@
+//! Grammar rules
 /// Matches whitespace characters including space, tab, and newline.
 /// This rule is used to ignore these characters in parsing, making the grammar
 /// more readable and flexible by disregarding non-essential spaces.
@@ -50,7 +51,7 @@ entry = ${name ~ WHITESPACE ~ date_entry ~ WHITESPACE ~ open ~ WHITESPACE ~ clos
 /// Ensures consistency in the format and captures the type of blockchain being referenced.
 name = ${ "Name:" ~ WHITESPACE ~ blockchain_name ~ ";"}
 
-/// , formatted as Matches a line containing the date"Date: <date>;".
+/// Matches a line containing the date, formatted as "Date: <date>;".
 /// Used to capture and verify the date component within an entry.
 date_entry = ${ "Date:" ~ WHITESPACE ~ date ~ ";"}
 
