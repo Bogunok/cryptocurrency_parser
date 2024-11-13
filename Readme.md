@@ -1,9 +1,9 @@
-## сryptocurrency_parser
+# сryptocurrency_parser
 
-### Description
+## Description
 This project implements a parser that parses data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
 
-### Technical description
+## Technical description
 The parser reades structured data from a file using grammar rules and then outputs parsed result to a json file.
 
 ## Grammar rules
@@ -12,13 +12,13 @@ The parser reades structured data from a file using grammar rules and then outpu
 - year: Matches a four-digit year by concatenating four digit rules (e.g., 2024)
 - month:  Matches a 2-digit month, e.g., "05" for May.
 - day: Matches a two-digit day (e.g., 01, 23).
-- date: Matches various date formats, e.g.,  08.11.2024, 11/08/2024, Nov 8, 2024
+- date: Matches various date formats, e.g.,  08.11.2024, 11/08/2024
 - blockchain_name: Matches specific blockchain names: SOL, BTC, or ETH. This ensures only these blockchain names are parsed as valid
-- currency: Matches specific currency codes: USD, EUR, or UAH. This limits the parsed currency to these three options
+- currency: Matches specific currency codes: USD, EUR, or UAH
 - number: Matches a numeric value, potentially with thousands separators (e.g., 1,000,000) and optional decimal places (e.g., 123.45)
 - number_and_currency: Matches a number followed by a currency
 - entry: Matches a complete entry for a blockchain record, which includes: name, date, open, close, high, low, and volume fields
-- name: Matches a line that includes the blockchain name
+- name: Matches a line that includes the blockchain name (BTC, SOL, ETH)
 - date_entry: Matches a line containing the date
 - open: Matches the opening price line 
 - close:  Matches the closing price line
@@ -51,7 +51,7 @@ low = ${ "Low:" ~ WHITESPACE ~ number_and_currency ~ ";"}
 volume = ${ "Volume:" ~ WHITESPACE ~ number_and_currency ~ ";"}
 
 
-### CLI commands
+## CLI commands
 
 - parse <input_file> <output_file>:
 
@@ -69,7 +69,7 @@ It describes the input format required for the parse command and provides an exa
 
 Shows information about the project`s name and author of the program.
 
-### Applying
+## Applying
 This parser can be used in applications related to blockchain and financial data processing
 
 - The parser can be used to extract structured data from text files or logs that record blockchain or cryptocurrency market data. This is useful for preparing datasets for further analysis or storage in databases
