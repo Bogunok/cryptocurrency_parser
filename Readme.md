@@ -1,7 +1,7 @@
 ## сryptocurrency_parser
 
 ### Description
-This project implements a parser that extracts data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
+This project implements a parser that parses data of different types of cryptocurrencies, such as ETH, SOL, BTC etc.
 
 ### Technical description
 The parser reades structured data from a file using grammar rules and then outputs parsed result to a json file.

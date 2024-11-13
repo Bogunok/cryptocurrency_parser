@@ -3,7 +3,7 @@ name = "cryptocurrency_parser"
 version = "0.1.0"
 edition = "2021"
 authors = ["Yelyzaveta Bohun"]
-description = "A parser for extracting data of different blockchains."
+description = "A parser of different cryptocurrencies"
 readme = "README.md"
 license = "MIT"
 
